@@ -8,7 +8,14 @@
 
 import Foundation
 
-struct ShowListResponse: Decodable {
-    let result: [Show]?
-    let message: String?
+struct ShowListResponse: Codable {
+    var result: [Show]?
+    var message: String?
+    var error: Bool?
+    
+    init(result: [Show]?) {
+        self.result = result
+        self.message = nil
+        self.error = false
+    }
 }

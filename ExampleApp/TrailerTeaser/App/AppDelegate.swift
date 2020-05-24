@@ -13,8 +13,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        // Follow instructions in README.md for acquiring an API key
-        let configuration = ShowWebCalls.Configuration(urlScheme: .https, host: "box-office-buz1.p.rapidapi.com", apiKey: "<Insert API Key>")
+        let configuration: ShowWebCalls.Configuration
+        
+        if ProcessInfo.processInfo.arguments.contains("useMockService") {
+            let port = ProcessInfo.processInfo.environment["mockServicePort"]
+            configuration = .localhost(port)
+        } else {
+            // Follow instructions in README.md for acquiring an API key
+            configuration = .rapidApi("<Insert API Key>")
+        }
         
         ShowWebCalls.initialize(configuration: configuration)
         

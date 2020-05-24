@@ -8,31 +8,10 @@
 
 import Foundation
 
-final class ShowWebCalls {
-    
-    struct Configuration {
-        var urlScheme: URLScheme
-        var host: String
-        var apiKey: String
-    }
-    
-    private enum Path: String {
-        case videos = "/videos"
-    }
-    
-    private struct HTTPHeaderField {
-        static let rapidApiHost = "x-rapidapi-host"
-        static let rapidApiKey = "x-rapidapi-key"
-    }
+final class ShowWebCalls: RapidApiWebCalls {
     
     private static let shared = ShowWebCalls()
     private static let urlSession = URLSession.shared
-    
-    private var configuration: Configuration
-    
-    private init() {
-        configuration = Configuration(urlScheme: .http, host: "", apiKey: "")
-    }
     
     static func initialize(configuration: Configuration) {
         shared.configuration = configuration
@@ -44,10 +23,11 @@ final class ShowWebCalls {
         return decoder
     }
     
-    private static func url(configuration: Configuration, path: Path) -> URL? {
+    private static func url(configuration: Configuration, path: RapidApi.Path) -> URL? {
         var components = URLComponents()
         components.scheme = configuration.urlScheme.rawValue
         components.host = configuration.host
+        components.port = configuration.port
         components.path = path.rawValue
         return components.url
     }
@@ -55,8 +35,8 @@ final class ShowWebCalls {
     private static func urlRequest(url: URL, method: HTTPMethod, configuration: Configuration) -> URLRequest {
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
-        request.setValue(configuration.host, forHTTPHeaderField: HTTPHeaderField.rapidApiHost)
-        request.setValue(configuration.apiKey, forHTTPHeaderField: HTTPHeaderField.rapidApiKey)
+        request.setValue(configuration.apiHost, forHTTPHeaderField: RapidApi.HeaderField.rapidApiHost)
+        request.setValue(configuration.apiKey, forHTTPHeaderField: RapidApi.HeaderField.rapidApiKey)
         return request
     }
     
@@ -102,22 +82,5 @@ final class ShowWebCalls {
             }
         }
         task.resume()
-    }
-}
-
-enum RapidApiError: Error {
-    case invalidUrl(configuration: ShowWebCalls.Configuration)
-    case invalidResponse
-    case custom(_ message: String?)
-    
-    var localizedDescription: String {
-        switch self {
-        case .invalidUrl(let configuration):
-            return "Invalid URL with configuration: \(configuration)"
-        case .invalidResponse:
-            return "Invalid response returned from API"
-        case .custom(let message):
-            return message ?? "Unknown error"
-        }
     }
 }

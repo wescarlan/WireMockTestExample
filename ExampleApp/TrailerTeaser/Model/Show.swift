@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Show: Decodable {
+struct Show: Codable {
     let id: Int
     let type: ShowType?
     let title: String
@@ -30,7 +30,7 @@ struct Show: Decodable {
     }
 }
 
-enum ShowType: String, Decodable {
+enum ShowType: String, Codable {
     case tv = "Show"
     case movie = "Movie"
 }

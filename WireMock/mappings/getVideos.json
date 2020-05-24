@@ -1,0 +1,33 @@
+{
+  "id" : "75983f73-de09-37dc-9eb2-f20eb42d0a71",
+  "request" : {
+    "url" : "/videos",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "getVideos.json",
+    "headers" : {
+      "CF-Cache-Status" : "DYNAMIC",
+      "CF-RAY" : "59857b9b5f57e382-SEA",
+      "cf-request-id" : "02e74b95120000e382be1ea200000001",
+      "Content-Type" : "application/json; charset=utf-8",
+      "Date" : "Sun, 24 May 2020 08:00:25 GMT",
+      "Etag" : "W/\"51b8-7jyIqSk1nZotwcqibFd2yMyrGM4\"",
+      "Expect-CT" : "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\"",
+      "Server" : "RapidAPI-1.1.7",
+      "Set-Cookie" : "__cfduid=d3c90e52b4bab9a6be5f4a62ed3e3b26b1590307224; expires=Tue, 23-Jun-20 08:00:24 GMT; path=/; domain=.boxofficebuz.com; HttpOnly; SameSite=Lax; Secure",
+      "Strict-Transport-Security" : "max-age=0; includeSubDomains; preload",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Dns-Prefetch-Control" : "off",
+      "X-Download-Options" : "noopen",
+      "X-Frame-Options" : "DENY",
+      "X-RapidAPI-Region" : "AWS - us-west-2",
+      "X-RapidAPI-Version" : "1.1.7",
+      "X-RateLimit-Requests-Limit" : "1000",
+      "X-RateLimit-Requests-Remaining" : "907",
+      "X-Xss-Protection" : "1; mode=block"
+    }
+  },
+  "uuid" : "75983f73-de09-37dc-9eb2-f20eb42d0a71"
+}
