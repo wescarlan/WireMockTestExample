@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -22,6 +22,7 @@
 		2B32DAF22474EB5A001C7899 /* ShowWebCalls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B32DAF12474EB5A001C7899 /* ShowWebCalls.swift */; };
 		2B32DAF424750194001C7899 /* Foundation+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B32DAF324750194001C7899 /* Foundation+Utils.swift */; };
 		2B32DAF624750409001C7899 /* ShowListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B32DAF524750409001C7899 /* ShowListResponse.swift */; };
+		2B4B295D247A39A300FABC22 /* WireMockTest in Frameworks */ = {isa = PBXBuildFile; productRef = 2B4B295C247A39A300FABC22 /* WireMockTest */; };
 		2B8B3B0F2479093F00945531 /* ShowDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8B3B0E2479093F00945531 /* ShowDetailsViewController.swift */; };
 		2B8B3B1124791A7D00945531 /* UIKit+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8B3B1024791A7C00945531 /* UIKit+Utils.swift */; };
 /* End PBXBuildFile section */
@@ -71,6 +72,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B4B295D247A39A300FABC22 /* WireMockTest in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -215,6 +217,8 @@
 			dependencies = (
 			);
 			name = TrailerTeaser;
+			packageProductDependencies = (
+			);
 			productName = WireMockTestExample;
 			productReference = 2B32DAC2247267B0001C7899 /* TrailerTeaser.app */;
 			productType = "com.apple.product-type.application";
@@ -234,6 +238,7 @@
 			);
 			name = TrailerTeaserUITests;
 			packageProductDependencies = (
+				2B4B295C247A39A300FABC22 /* WireMockTest */,
 			);
 			productName = WireMockTestExampleUITests;
 			productReference = 2B32DAD8247267B4001C7899 /* TrailerTeaserUITests.xctest */;
@@ -268,6 +273,7 @@
 			);
 			mainGroup = 2B32DAB9247267B0001C7899;
 			packageReferences = (
+				2B4B295B247A39A300FABC22 /* XCRemoteSwiftPackageReference "WireMockTest" */,
 			);
 			productRefGroup = 2B32DAC3247267B0001C7899 /* Products */;
 			projectDirPath = "";
@@ -579,6 +585,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		2B4B295B247A39A300FABC22 /* XCRemoteSwiftPackageReference "WireMockTest" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/wescarlan/WireMockTest";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		2B4B295C247A39A300FABC22 /* WireMockTest */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2B4B295B247A39A300FABC22 /* XCRemoteSwiftPackageReference "WireMockTest" */;
+			productName = WireMockTest;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 2B32DABA247267B0001C7899 /* Project object */;
 }
