@@ -6,38 +6,160 @@
 //  Copyright © 2020 Wesley Carlan. All rights reserved.
 //
 
+import WireMockTest
 import XCTest
 
 class TrailerTeaserUITests: XCTestCase {
+    
+    var wireMock: WireMockTest!
+    var wireMockApi: WireMockApi!
+    
+    var app: XCUIApplication!
 
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-
-        // In UI tests it is usually best to stop immediately when a failure occurs.
         continueAfterFailure = false
-
-        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
+        
+        // Configure WireMockTest and WireMockApi with appropriate WireMock server information
+        let port = "8080"
+        let configuration = WireMockConfiguration(port: port)
+        wireMock = WireMockTest(configuration: configuration)
+        wireMockApi = WireMockApi(configuration: configuration)
+        
+        // Initialize WireMockTest session
+        try wireMock.initializeSession()
+        
+        app = XCUIApplication()
+        app.launchArguments.append("useMockService")
+        app.launchEnvironment["mockServicePort"] = port
+        app.launch()
     }
 
     override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        wireMockApi.resetMappings()
+    }
+    
+    func testTvShows() {
+        testTvShows_noVideos()
+        testTvShows_noTvShows()
+        testTvShows_oneTvShow()
+        testTvShows_twoTvShows()
     }
 
-    func testExample() throws {
-        // UI tests must launch the application that they test.
-        let app = XCUIApplication()
-        app.launch()
-
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-
-    func testLaunchPerformance() throws {
-        if #available(macOS 10.15, iOS 13.0, tvOS 13.0, *) {
-            // This measures how long it takes to launch your application.
-            measure(metrics: [XCTOSSignpostMetric.applicationLaunch]) {
-                XCUIApplication().launch()
-            }
+    // Use WireMockApi to update mapping response with Codable object
+    private func testTvShows_noVideos() {
+        guard var getVideosMapping = wireMockApi.getMapping(.getVideos, responseType: ShowListResponse.self) else {
+            return XCTFail("GET /videos mapping does not exist.")
         }
+        
+        // Update mapping
+        let mockGetVideosResponse = ShowListResponse(result: [])
+        getVideosMapping.response.jsonBody = mockGetVideosResponse
+        wireMockApi.updateMapping(getVideosMapping)
+        
+        // Select TV Shows button
+        XCTAssertTrue(app.descendants(matching: .any).matching(identifier: AccessibilityKey.LandingViewController.root).element(boundBy: 0).isVisible)
+        app.buttons[AccessibilityKey.LandingViewController.tvShowButton].tap()
+        
+        // Validate table view
+        XCTAssertTrue(app.descendants(matching: .any).matching(identifier: AccessibilityKey.ShowListViewController.root).element(boundBy: 0).isVisible)
+        XCTAssertEqual(0, app.tables[AccessibilityKey.ShowListViewController.tableView].cells.count)
+        
+        // Navigate back
+        app.navigationBars.buttons.element(boundBy: 0).tap()
+    }
+    
+    // Use WireMockApi to update mapping response with JSON file
+    private func testTvShows_noTvShows() {
+        guard var getVideosMapping = wireMockApi.getMapping(.getVideos, responseType: ShowListResponse.self) else {
+            return XCTFail("GET /videos mapping does not exist.")
+        }
+        
+        // Update mapping
+        getVideosMapping.response.bodyFileName = "getVideos-noTv.json"
+        wireMockApi.updateMapping(getVideosMapping)
+        
+        // Select TV Shows button
+        XCTAssertTrue(app.descendants(matching: .any).matching(identifier: AccessibilityKey.LandingViewController.root).element(boundBy: 0).isVisible)
+        app.buttons[AccessibilityKey.LandingViewController.tvShowButton].tap()
+        
+        // Validate table view
+        XCTAssertTrue(app.descendants(matching: .any).matching(identifier: AccessibilityKey.ShowListViewController.root).element(boundBy: 0).isVisible)
+        XCTAssertEqual(0, app.tables[AccessibilityKey.ShowListViewController.tableView].cells.count)
+        
+        // Navigate back
+        app.navigationBars.buttons.element(boundBy: 0).tap()
+    }
+    
+    // Use WireMockApi to update mapping response with Codable object
+    private func testTvShows_oneTvShow() {
+        guard var getVideosMapping = wireMockApi.getMapping(.getVideos, responseType: ShowListResponse.self) else {
+            return XCTFail("GET /videos mapping does not exist.")
+        }
+        
+        // Update mapping
+        let mockShow = Show(id: 1, type: .tv, title: "Mock TV Show", date: Date(), description: nil, category: nil, thumbnail: nil, siteUrl: nil)
+        let mockGetVideosResponse = ShowListResponse(result: [mockShow])
+        getVideosMapping.response = WireMockResponse(response: mockGetVideosResponse)
+        wireMockApi.updateMapping(getVideosMapping)
+        
+        // Select TV Shows button
+        XCTAssertTrue(app.descendants(matching: .any).matching(identifier: AccessibilityKey.LandingViewController.root).element(boundBy: 0).isVisible)
+        app.buttons[AccessibilityKey.LandingViewController.tvShowButton].tap()
+        
+        // Validate table view
+        XCTAssertTrue(app.descendants(matching: .any).matching(identifier: AccessibilityKey.ShowListViewController.root).element(boundBy: 0).isVisible)
+        let tableView = app.tables[AccessibilityKey.ShowListViewController.tableView]
+        XCTAssertEqual(1, tableView.cells.count)
+        
+        // Validate shows
+        let showCell0 = tableView.cells.element(boundBy: 0)
+        XCTAssertEqual("Mock TV Show", showCell0.staticTexts[AccessibilityKey.ShowTableViewCell.nameLabel].label)
+        
+        // Navigate back
+        app.navigationBars.buttons.element(boundBy: 0).tap()
+    }
+    
+    // Use WireMockTest to stub a new mapping.
+    private func testTvShows_twoTvShows() {
+        // Remove any existing GET /videos mapping to ensure there are no collisions when adding a new mapping
+        wireMockApi.deleteMapping(.getVideos)
+
+        // Create mapping
+        let mockShow1 = Show(id: 1, type: .tv, title: "Mock TV Show 1", date: Date(), description: nil, category: nil, thumbnail: nil, siteUrl: nil)
+        let mockShow2 = Show(id: 2, type: .tv, title: "Mock TV Show 2", date: Date(), description: nil, category: nil, thumbnail: nil, siteUrl: nil)
+        let mockGetVideosResponse = ShowListResponse(result: [mockShow1, mockShow2])
+        
+        wireMock.stub(RapidApi.Path.videos.rawValue)
+            .forHttpMethod(.get)
+            .andReturn(mockGetVideosResponse)
+
+        // Select TV Shows button
+        XCTAssertTrue(app.descendants(matching: .any).matching(identifier: AccessibilityKey.LandingViewController.root).element(boundBy: 0).isVisible)
+        app.buttons[AccessibilityKey.LandingViewController.tvShowButton].tap()
+
+        // Validate table view
+        XCTAssertTrue(app.descendants(matching: .any).matching(identifier: AccessibilityKey.ShowListViewController.root).element(boundBy: 0).isVisible)
+        let tableView = app.tables[AccessibilityKey.ShowListViewController.tableView]
+        XCTAssertEqual(2, tableView.cells.count)
+
+        // Validate shows
+        let showCell0 = tableView.cells.element(boundBy: 0)
+        XCTAssertEqual("Mock TV Show 1", showCell0.staticTexts[AccessibilityKey.ShowTableViewCell.nameLabel].label)
+        
+        let showCell1 = tableView.cells.element(boundBy: 1)
+        XCTAssertEqual("Mock TV Show 2", showCell1.staticTexts[AccessibilityKey.ShowTableViewCell.nameLabel].label)
+
+        // Navigate back
+        app.navigationBars.buttons.element(boundBy: 0).tap()
+        
+        // Reset stubs
+        wireMock.resetStubs()
+    }
+}
+
+extension XCUIElement {
+    
+    var isVisible: Bool {
+        return exists && isHittable
     }
 }

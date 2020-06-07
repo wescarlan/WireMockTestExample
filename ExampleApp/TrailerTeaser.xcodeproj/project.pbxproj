@@ -25,6 +25,7 @@
 		2B32DAF22474EB5A001C7899 /* ShowWebCalls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B32DAF12474EB5A001C7899 /* ShowWebCalls.swift */; };
 		2B32DAF424750194001C7899 /* Foundation+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B32DAF324750194001C7899 /* Foundation+Utils.swift */; };
 		2B32DAF624750409001C7899 /* ShowListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B32DAF524750409001C7899 /* ShowListResponse.swift */; };
+		2B493A52248C75AE004B7970 /* WireMockMappingKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B493A51248C75AE004B7970 /* WireMockMappingKey.swift */; };
 		2B4B295D247A39A300FABC22 /* WireMockTest in Frameworks */ = {isa = PBXBuildFile; productRef = 2B4B295C247A39A300FABC22 /* WireMockTest */; };
 		2B4B295F247B15E600FABC22 /* RapidApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4B295E247B15E600FABC22 /* RapidApi.swift */; };
 		2B4B2961247B16A200FABC22 /* RapidApiWebCalls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4B2960247B16A200FABC22 /* RapidApiWebCalls.swift */; };
@@ -62,6 +63,7 @@
 		2B32DAF12474EB5A001C7899 /* ShowWebCalls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowWebCalls.swift; sourceTree = "<group>"; };
 		2B32DAF324750194001C7899 /* Foundation+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Foundation+Utils.swift"; sourceTree = "<group>"; };
 		2B32DAF524750409001C7899 /* ShowListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowListResponse.swift; sourceTree = "<group>"; };
+		2B493A51248C75AE004B7970 /* WireMockMappingKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WireMockMappingKey.swift; sourceTree = "<group>"; };
 		2B4B295E247B15E600FABC22 /* RapidApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RapidApi.swift; sourceTree = "<group>"; };
 		2B4B2960247B16A200FABC22 /* RapidApiWebCalls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RapidApiWebCalls.swift; sourceTree = "<group>"; };
 		2B4B2962247B1A5100FABC22 /* RapidApiError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RapidApiError.swift; sourceTree = "<group>"; };
@@ -121,8 +123,9 @@
 		2B32DADB247267B4001C7899 /* TrailerTeaserUITests */ = {
 			isa = PBXGroup;
 			children = (
-				2B32DADC247267B4001C7899 /* TrailerTeaserUITests.swift */,
 				2B32DADE247267B4001C7899 /* Info.plist */,
+				2B32DADC247267B4001C7899 /* TrailerTeaserUITests.swift */,
+				2B493A51248C75AE004B7970 /* WireMockMappingKey.swift */,
 			);
 			path = TrailerTeaserUITests;
 			sourceTree = "<group>";
@@ -349,6 +352,7 @@
 				2B32DAE924726CB2001C7899 /* AccessibilityKey.swift in Sources */,
 				2B32DADD247267B4001C7899 /* TrailerTeaserUITests.swift in Sources */,
 				2B1CCBB52484D153006572AE /* RapidApi.swift in Sources */,
+				2B493A52248C75AE004B7970 /* WireMockMappingKey.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
