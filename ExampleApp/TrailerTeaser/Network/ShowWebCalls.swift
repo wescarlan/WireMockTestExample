@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import HttpUtils
 
 final class ShowWebCalls: RapidApiWebCalls {
     
@@ -32,7 +33,7 @@ final class ShowWebCalls: RapidApiWebCalls {
         return components.url
     }
     
-    private static func urlRequest(url: URL, method: HTTPMethod, configuration: Configuration) -> URLRequest {
+    private static func urlRequest(url: URL, method: HTTP.Method, configuration: Configuration) -> URLRequest {
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
         request.setValue(configuration.apiHost, forHTTPHeaderField: RapidApi.HeaderField.rapidApiHost)

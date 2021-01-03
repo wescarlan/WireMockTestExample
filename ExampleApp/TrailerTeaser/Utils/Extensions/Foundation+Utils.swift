@@ -12,13 +12,6 @@ enum URLScheme: String {
     case http, https
 }
 
-enum HTTPMethod: String {
-    case get = "GET"
-    case post = "POST"
-    case put = "PUT"
-    case delete = "DELETE"
-}
-
 extension String {
     var htmlToAttributedString: NSAttributedString {
         guard let data = data(using: .utf8) else { return NSAttributedString(string: self) }
